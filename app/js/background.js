@@ -15449,7 +15449,6 @@ var Wechat = function (_WechatCore) {
           return _this9.restart();
         }, 5 * 1000);
       } else {
-        debug('心跳');
         this.notifyMobile().catch(function (err) {
           debug(err);
           _this9.emit('error', err);
@@ -15554,7 +15553,6 @@ var Wechat = function (_WechatCore) {
     key: '_getPollingMessage',
     value: function _getPollingMessage() {
       // Default polling message
-      return '心跳：' + new Date().toLocaleString();
     }
   }, {
     key: '_getPollingInterval',

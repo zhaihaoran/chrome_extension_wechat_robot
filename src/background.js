@@ -2,10 +2,8 @@
 import 'babel-polyfill';
 import Wechat from 'wechat4u';
 import contact from '_wechat4u@0.7.6@wechat4u/lib/interface/contact';
-import idb from './util/idb';
-import CONF from './util/conf';
-// let idb = require('');
-// let CONF = require('./util/conf');
+let idb = require('./util/idb');
+let CONF = require('./util/conf');
 
 class WxBot extends Wechat {
     constructor(data) {
@@ -29,7 +27,7 @@ class WxBot extends Wechat {
                  */
                 console.log(
                     this.contacts[msg.FromUserName].getDisplayName() +
-                    '发来消息:'
+                        '发来消息:'
                 );
                 /**
                  * 判断消息类型
@@ -40,7 +38,7 @@ class WxBot extends Wechat {
                          * 文本消息
                          */
                         console.log(msg.Content);
-                        // this._botReply(msg)
+                    // this._botReply(msg)
                 }
             });
             this.on('contacts-updated', contacts => {
@@ -52,7 +50,7 @@ class WxBot extends Wechat {
     /* 
     初始化数据库
     @method
-  */
+    */
     initDB() {
         const DB_NAME = 'wxbot-chrome-extension';
         const DB_VERSION = this.getDBVersion();
@@ -79,7 +77,7 @@ class WxBot extends Wechat {
     获取数据库版本号
     @method
     @return {integer} 数据库版本号
-  */
+    */
     getDBVersion() {
         let date_str = new Date().toLocaleDateString();
         if (localStorage.captrue_date != date_str) {
@@ -87,8 +85,8 @@ class WxBot extends Wechat {
             let new_version = old_version + 1;
             localStorage.captrue_date = date_str;
             localStorage.db_version = new_version; // 存储db version
-            localStorage.quan_page = 0; //表示目前采集0页
-            localStorage.sended_quan_count = 0; //表示已经发送消息数量
+            localStorage.quan_page = 0; // 表示目前采集0页
+            localStorage.sended_quan_count = 0; // 表示已经发送消息数量
             return new_version;
         } else {
             return localStorage.db_version;
@@ -117,10 +115,10 @@ class WxBot extends Wechat {
             info: word
         };
         return this.request({
-                method: 'GET',
-                url: 'http://www.tuling123.com/openapi/api',
-                params: params
-            })
+            method: 'GET',
+            url: 'http://www.tuling123.com/openapi/api',
+            params: params
+        })
             .then(res => {
                 const data = res.data;
                 if (data.code == 100000) {
@@ -145,7 +143,7 @@ class WxBot extends Wechat {
 
     /* 
     @method 开启自动群发消息
-  */
+    */
     _startAutoSend(time_span = 20, message) {
         console.log('发送时间间隔', time_span);
         var _this = this;
@@ -156,7 +154,7 @@ class WxBot extends Wechat {
                 group.MemberList.forEach((user, i) => {
                     setTimeout(function() {
                         console.log(i);
-                        // console.log('发送给 ', user.UserName);
+                        // console.log('发送给 ', user.UserName)
                         _this.sendMsg(message, user.UserName).catch(err => {
                             _this.emit('error', err);
                         });
@@ -168,7 +166,7 @@ class WxBot extends Wechat {
 
     /* 
     @method 暂停群发
-  */
+    */
     _stopAutoSend() {
         this.auto_send = false;
     }
